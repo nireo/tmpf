@@ -9,10 +9,11 @@ import (
 )
 
 type Server struct {
-	fs *filestore.Filestore
+	FS *filestore.Filestore
 }
 
 func (s *Server) CreateFile(c *fiber.Ctx) error {
+	// read multipart file
 	file, err := c.FormFile("file")
 	if err != nil {
 		return err
@@ -20,9 +21,20 @@ func (s *Server) CreateFile(c *fiber.Ctx) error {
 
 	uuid := shortuuid.New()
 
-	return c.SaveFile(file, filepath.Join(s.fs.Dir, uuid+filepath.Ext(file.Filename)))
+	// store metadata
+	if err = s.FS.Add(uuid, file.Filename); err != nil {
+		return err
+	}
+
+	return c.SaveFile(file, filepath.Join(s.FS.Dir, uuid+filepath.Ext(file.Filename)))
 }
 
 func (s *Server) ServeFile(c *fiber.Ctx) error {
-	return nil
+	uuid := c.Params("uuid")
+	meta, err := s.FS.Get(uuid)
+	if err != nil {
+		return err
+	}
+
+	return c.SendFile(filepath.Join(s.FS.Dir, uuid+filepath.Ext(meta.Filename)), true)
 }
