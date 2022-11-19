@@ -7,6 +7,3 @@ type Filestore struct {
 	Dir      string
 	metadata *badger.DB
 }
-
-func (fs *Filestore) Cleanup() {
-}
