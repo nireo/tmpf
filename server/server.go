@@ -1,6 +1,7 @@
 package server
 
 import (
+	"fmt"
 	"path/filepath"
 
 	"github.com/gofiber/fiber/v2"
@@ -13,6 +14,8 @@ type Server struct {
 }
 
 func (s *Server) CreateFile(c *fiber.Ctx) error {
+	fmt.Println(c.MultipartForm())
+
 	// read multipart file
 	file, err := c.FormFile("file")
 	if err != nil {
@@ -37,4 +40,10 @@ func (s *Server) ServeFile(c *fiber.Ctx) error {
 	}
 
 	return c.SendFile(filepath.Join(s.FS.Dir, uuid+filepath.Ext(meta.Filename)), true)
+}
+
+func (s *Server) RenderIndex(c *fiber.Ctx) error {
+	return c.Render("index", fiber.Map{
+		"Title": "tmpf",
+	})
 }

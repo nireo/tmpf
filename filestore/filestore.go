@@ -4,8 +4,8 @@ import (
 	"time"
 
 	"github.com/dgraph-io/badger/v3"
-	"github.com/gogo/protobuf/proto"
 	"github.com/nireo/tmpf/pb"
+	"google.golang.org/protobuf/proto"
 )
 
 // Filestore handles all operations relating to files.
@@ -64,10 +64,10 @@ func (fs *Filestore) Get(uuid string) (*pb.Metadata, error) {
 		return nil, err
 	}
 
-	meta := &pb.Metadata{}
-	if err = proto.Unmarshal(b, meta); err != nil {
+	var meta pb.Metadata
+	if err = proto.Unmarshal(b, &meta); err != nil {
 		return nil, err
 	}
 
-	return meta, nil
+	return &meta, nil
 }

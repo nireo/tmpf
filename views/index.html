@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Hello, world!</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="A temporary file upload" />
+</head>
+<body>
+  <h1>{{ .Title }}</h1>
+  <div>
+    <h1>Multipart File Upload</h1>
+    <form id="form" enctype="multipart/form-data" action="/" method="post">
+      <div class="input-group">
+        <label for="file">Select files</label>
+        <input id="file" type="file" name="file" />
+      </div>
+      <button type="submit">Upload</button>
+    </form>
+  </div>
+</body>
+</html>

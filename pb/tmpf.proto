@@ -1,11 +1,8 @@
 syntax = "proto3";
 package pb;
 
-import "google/protobuf/timestamp.proto";
 option go_package = "github.com/nireo/tmpfs/pb";
 
 message Metadata {
   string filename = 1;
-  google.protobuf.Timestamp upload_time = 2;
-
 }
